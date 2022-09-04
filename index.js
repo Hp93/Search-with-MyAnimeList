@@ -1,5 +1,5 @@
 var createProperties = {
-    title: "Open with Instagram",
+    title: "Search with MyAnimeList",
     contexts: ["selection"],
     onclick: function () {
         browser
@@ -7,8 +7,14 @@ var createProperties = {
                 code: `window.getSelection().toString().trim()`
             })
             .then(function (selection) {
+                if (selection == "") {
+                    console.error("Can't read selection.");
+                    return;
+                }
+                var encodedSelection = encodeURIComponent(selection);
+
                 browser.tabs.create({
-                    url: `https://instagram.com/${selection}/`,
+                    url: `https://myanimelist.net/search/all?q=${encodedSelection}&cat=all`,
                     active: true,
                 });
             });
